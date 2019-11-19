@@ -30,7 +30,7 @@ with open('enrolled.txt') as fp:
     while person:
         data = person.split("^^")
         known_face_names.append(data[0])
-        image = face_recognition.load_image_file(data[1])
+        image = face_recognition.load_image_file(getcwd() + "/Images/" + data[1])
         image_encoding = face_recognition.face_encodings(image)[0]
         known_face_encodings.append(image_encoding)
 
