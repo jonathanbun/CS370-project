@@ -6,13 +6,10 @@ import shutil
 
 def main():
 	img_name = ""
-	print("Welcome to enrollment! Please enter your name:\n")
-	name = input()
-	print("Enter '1' for uploading an image or '2' for taking an image with the webcam\n")
-	decision = input()
+	name = input("Welcome to enrollment! Please enter your name:\n")
+	decision = input("Enter '1' for uploading an image or '2' for taking an image with the webcam\n")
 	if decision == 1:
-		print("Please enter image name with extension and place into folder:\n")
-		img_name = input()
+		img_name = input("Please enter image name with extension and place into folder:\n")
 	elif decision == 2: 
 		print("Camera is opening, press spacebar to take image\n")
 		cam = cv2.VideoCapture(0)
