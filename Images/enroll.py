@@ -4,6 +4,7 @@ import numpy as np
 import os
 
 def main():
+	img_name = ""
 	print("Welcome to enrollment! Please enter your name:\n")
 	name = input()
 	print("Enter '1' for uploading an image or '2' for taking an image with the webcam\n")
@@ -39,9 +40,9 @@ def main():
 	f = open("enrolled.txt", "a")
 	f.write(name + "^^" + img_name)
 	f.close()
-	for img_name in os.listdir(getcwd()):
-		if os.path.isfile(os.path.join(getcwd(), img_name)):
-			os.rename(os.path.join(getcwd(), img_name), os.path.join(os.getcwd() + "/Images", img_name))
+	for img_name in os.listdir(os.getcwd()):
+		if os.path.isfile(os.path.join(os.getcwd(), img_name)):
+			os.rename(os.path.join(os.getcwd(), img_name), os.path.join(os.getcwd() + "/Images", img_name))
 
 if __name__== "__main__":
 	main()
