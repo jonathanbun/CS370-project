@@ -9,8 +9,8 @@ def main():
 	print("Enter '1' for uploading an image or '2' for taking an image with the webcam\n")
 	decision = input()
 	if decision == 1:
-  		print("Please enter image name with extension and place into folder:\n")
-  		img_name = input()
+		print("Please enter image name with extension and place into folder:\n")
+		img_name = input()
 	elif decision == 2: 
 		print("Camera is opening, press spacebar to take image\n")
 		cam = cv2.VideoCapture(0)
@@ -24,12 +24,12 @@ def main():
 
 			if k%256 == 27:
 		        # ESC pressed
-		    	print("Escape hit, closing...")
-		    	break
+				print("Escape hit, closing...")
+				break
 			elif k%256 == 32:
 		        # SPACE pressed
 				img_name = "{}.jpg".format(name)
-		    	cv2.imwrite(img_name, frame)
+				cv2.imwrite(img_name, frame)
 				print("{} added to enrolled list!".format(img_name))
 
 			cam.release()
@@ -40,9 +40,8 @@ def main():
 	f.write(name + "^^" + img_name)
 	f.close()
 	for img_name in os.listdir(getcwd()):
-    	if os.path.isfile(os.path.join(getcwd(), img_name)):
-    		os.rename(os.path.join(getcwd(), img_name), os.path.join(os.getcwd() + "/Images", img_name))
+		if os.path.isfile(os.path.join(getcwd(), img_name)):
+			os.rename(os.path.join(getcwd(), img_name), os.path.join(os.getcwd() + "/Images", img_name))
 
-  
 if __name__== "__main__":
 	main()
