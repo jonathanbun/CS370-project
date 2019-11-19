@@ -19,7 +19,7 @@ def main():
 			ret, frame = cam.read()
 			cv2.imshow("Enrollment", frame)
 			if not ret:
-			break
+				break
 			k = cv2.waitKey(1)
 
 			if k%256 == 27:
