@@ -12,9 +12,9 @@ def main():
   		print("Please enter image name with extension and place into folder:\n")
   		img_name = input()
 	elif decision == 2: 
-	  	print("Camera is opening, press spacebar to take image\n")
-		cam = cv2.VideoCapture(0)
-		cv2.namedWindow("Enrollment")
+		print("Camera is opening, press spacebar to take image\n")
+	  	cam = cv2.VideoCapture(0)
+	  	cv2.namedWindow("Enrollment")
 		while True:
 		    ret, frame = cam.read()
 		    cv2.imshow("Enrollment", frame)
