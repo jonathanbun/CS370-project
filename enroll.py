@@ -39,7 +39,7 @@ def main():
 			cv2.destroyAllWindows()
 
 	f = open("enrolled.txt", "a")
-	f.write(name + "^^" + img_name + "\n")
+	f.write("\n"+name + "^^" + img_name + "\n")
 	f.close()
 	for file in os.listdir(os.getcwd()):
 		if file.endswith(".jpg"):
