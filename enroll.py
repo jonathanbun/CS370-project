@@ -8,9 +8,9 @@ def main():
 	img_name = ""
 	name = input("Welcome to enrollment! Please enter your name:\n")
 	decision = input("Enter '1' for uploading an image or '2' for taking an image with the webcam\n")
-	if decision == 1:
+	if decision == "1":
 		img_name = input("Please enter image name with extension and place into folder:\n")
-	elif decision == 2: 
+	elif decision == "2": 
 		print("Camera is opening, press spacebar to take image\n")
 		cam = cv2.VideoCapture(0)
 		cv2.namedWindow("Enrollment")
