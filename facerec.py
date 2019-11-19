@@ -1,6 +1,7 @@
 import face_recognition
 import cv2
 import numpy as np
+import os
 
 video_capture = cv2.VideoCapture(0)
 
@@ -26,11 +27,10 @@ known_face_encodings = []
 known_face_names = []
 # Will open text file of names/images and add line by line to model
 with open('enrolled.txt') as fp:
-    person = fp.readline()
-    while person:
+    for person in fp:
         data = person.split("^^")
         known_face_names.append(data[0])
-        image = face_recognition.load_image_file(os.getcwd() + "/Images/" + data[1])
+        image = face_recognition.load_image_file(os.getcwd() + "/Images/" + data[1].replace("\n",""))
         image_encoding = face_recognition.face_encodings(image)[0]
         known_face_encodings.append(image_encoding)
 
