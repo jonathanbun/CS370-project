@@ -18,7 +18,7 @@ class notifier:
 		# dont want my email password floating around on github
 		appPassword = "zcwvguwdmtkfiuyk"
 		# to email is recipient which is an email address
-		toEmail = recipient
+		toEmail = recipientAddress
 
 		# create smtp object, login to the gmail smtp server
 		smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
