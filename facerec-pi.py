@@ -57,7 +57,7 @@ notifyInterval = 600
 
 timePeriod = 0 
 
-time.sleep(0.1)
+sleep(0.1)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # Grab a single frame of video
