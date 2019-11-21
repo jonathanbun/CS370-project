@@ -2,7 +2,8 @@ import face_recognition
 import cv2
 import numpy as np
 import os
-import picamera
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 from datetime import *
 from notify import *
 import time
