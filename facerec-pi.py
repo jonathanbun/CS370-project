@@ -4,7 +4,7 @@ import numpy as np
 import os
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-import time
+from datetime import *
 
 # video_capture = cv2.VideoCapture(0)
 
@@ -49,6 +49,12 @@ camera = PiCamera()
 camera.resolution = (1280, 720)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(1280, 720))
+
+notify = notifier()
+
+notifyInterval = 600
+
+timePeriod = 0 
 
 time.sleep(0.1)
 
@@ -105,6 +111,14 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+        cv2.imwrite("caputure.jpg", frame)
+
+        if(time.time() - timePeriod > notifyInterval):
+
+
+            timePeriod = time.time()
+
+            notifier.send(name, "jgarc110@rams.colostate.edu", )
 
     # Display the resulting image
     cv2.imshow('Video', frame)
