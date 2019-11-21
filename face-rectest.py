@@ -5,6 +5,7 @@ import os
 from imutils.video import VideoStream
 import imutils
 import time
+from picamera import *
 
 # # Load a sample picture and learn how to recognize it.
 # obama_image = face_recognition.load_image_file("obama.jpg")
