@@ -43,7 +43,7 @@ class notifier:
 
 		else:
 
-			msg['Subject'] = name + "is at the door!"
+			msg['Subject'] = name + " is at the door!"
 		# read the image
 		readImage = open(tempImage, 'rb').read()
 
