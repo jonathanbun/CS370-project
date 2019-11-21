@@ -6,6 +6,7 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from datetime import *
 from notify import *
+import time
 
 # video_capture = cv2.VideoCapture(0)
 
@@ -57,7 +58,7 @@ notifyInterval = 600
 
 timePeriod = 0 
 
-sleep(0.1)
+time.sleep(0.1)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # Grab a single frame of video
