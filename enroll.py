@@ -17,7 +17,7 @@ def main():
 		# root = Tk()
 		# root.filename = filedialog.askopenfilename(initialdir = "/", title = "Select Enrollment Image", filetypes = (("jpeg files", "*.jpg"), ("all files", "*.*")))
 		# img_name = root.filename
-	elif decision == "2": 
+	elif decision == "2":
 		print("Camera is opening, press spacebar to take image\n")
 		cam = cv2.VideoCapture(0)
 		cv2.namedWindow("Enrollment")
