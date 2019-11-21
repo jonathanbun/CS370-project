@@ -50,7 +50,7 @@ process_this_frame = 0
 
 camera = picamera.PiCamera()
 camera.resolution = (320, 240)
-# camera.framerate = 32
+camera.framerate = 32
 output = np.empty((240, 320, 3), dtype=np.uint8)
 # rawCapture = PiRGBArray(camera, size=(1280, 720))
 
@@ -60,7 +60,7 @@ output = np.empty((240, 320, 3), dtype=np.uint8)
 
 timePeriod = 0 
 
-time.sleep(1)
+time.sleep(.1)
 
 while True:
     # Grab a single frame of video
@@ -78,21 +78,25 @@ while True:
     rgb_small_frame = small_frame
 
     # Only process every other frame of video to save time
-    if process_this_frame == 5:
+    if process_this_frame == 4:
+        print("processing")
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+        print("checked frame")
+
 
         face_names = []
         for face_encoding in face_encodings:
+            print("face found")
             # See if the face is a match for the known face(s)
             matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
             name = "Unknown"
 
             # # If a match was found in known_face_encodings, just use the first one.
-            # if True in matches:
-            #     first_match_index = matches.index(True)
-            #     name = known_face_names[first_match_index]
+            if True in matches:
+                first_match_index = matches.index(True)
+                name = known_face_names[first_match_index]
 
             # Or instead, use the known face with the smallest distance to the new face
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
@@ -103,7 +107,7 @@ while True:
             face_names.append(name)
         process_this_frame == 0
 
-    process_this_frame += 1
+    process_this_frame = process_this_frame + 1
 
 
     # Display the results
