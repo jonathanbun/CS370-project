@@ -46,12 +46,12 @@ with open('enrolled.txt') as fp:
 face_locations = []
 face_encodings = []
 face_names = []
-process_this_frame = 0
+process_this_frame = True
 
 camera = picamera.PiCamera()
-camera.resolution = (720, 480)
+camera.resolution = (640, 360)
 # camera.framerate = 32
-output = np.empty((480, 720, 3), dtype=np.uint8)
+output = np.empty((360, 640, 3), dtype=np.uint8)
 # rawCapture = PiRGBArray(camera, size=(1280, 720))
 
 # notify = notifier()
@@ -103,9 +103,9 @@ while True:
                 name = known_face_names[best_match_index]
 
             face_names.append(name)
-        process_this_frame == 0
+        # process_this_frame == 0
 
-    process_this_frame += 1
+    process_this_frame = !process_this_frame
 
 
     # Display the results
