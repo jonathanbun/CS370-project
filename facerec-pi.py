@@ -47,26 +47,19 @@ face_encodings = []
 face_names = []
 process_this_frame = 0
 
-<<<<<<< HEAD
-camera = picamera.PiCamera()
+camera = PiCamera()
 camera.resolution = (320, 280)
 # camera.framerate = 32
 output = np.empty((240, 320, 3), dtype=np.uint8)
-=======
-camera = PiCamera()
-camera.resolution = (720, 480)
-# camera.framerate = 32
-output = np.empty((480, 720, 3), dtype=np.uint8)
->>>>>>> parent of e6c4b16... Update facerec-pi.py
 # rawCapture = PiRGBArray(camera, size=(1280, 720))
 
-notify = notifier()
+# notify = notifier()
 
-notifyInterval = 600
+# notifyInterval = 600
 
 timePeriod = 0 
 
-time.sleep(0.1)
+time.sleep(1)
 
 while True:
     # Grab a single frame of video
