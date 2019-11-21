@@ -2,8 +2,9 @@ import face_recognition
 import cv2
 import numpy as np
 import os
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+# from picamera.array import PiRGBArray
+# from picamera import PiCamera
+import picamera
 from datetime import *
 from notify import *
 import time
@@ -47,19 +48,19 @@ face_encodings = []
 face_names = []
 process_this_frame = 0
 
-camera = PiCamera()
-camera.resolution = (720, 480)
+camera = picamera.PiCamera()
+camera.resolution = (320, 240)
 # camera.framerate = 32
-output = np.empty((480, 720, 3), dtype=np.uint8)
+output = np.empty((240, 320, 3), dtype=np.uint8)
 # rawCapture = PiRGBArray(camera, size=(1280, 720))
 
-notify = notifier()
+# notify = notifier()
 
-notifyInterval = 600
+# notifyInterval = 600
 
 timePeriod = 0 
 
-time.sleep(0.1)
+time.sleep(1)
 
 while True:
     # Grab a single frame of video
