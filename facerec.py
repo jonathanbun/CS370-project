@@ -47,7 +47,7 @@ while True:
     ret, frame = video_capture.read()
 
     # Resize frame of video to 1/4 size for faster face recognition processing
-    small_frame = cv2.resize(frame, (0, 0), fx=0.2, fy=0.2)
+    small_frame = cv2.resize(frame, (0, 0), fx=0.15, fy=0.15)
 
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
     rgb_small_frame = small_frame[:, :, ::-1]
@@ -84,10 +84,10 @@ while True:
     # Display the results
     for (top, right, bottom, left), name in zip(face_locations, face_names):
         # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-        top *= 5
-        right *= 5
-        bottom *= 5
-        left *= 5
+        top *= 6.67
+        right *= 6.67
+        bottom *= 6.67
+        left *= 6.67
 
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
