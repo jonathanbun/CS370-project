@@ -45,12 +45,12 @@ with open('enrolled.txt') as fp:
 face_locations = []
 face_encodings = []
 face_names = []
-process_this_frame = True
+process_this_frame = 0
 
 camera = PiCamera()
-camera.resolution = (1280, 720)
-camera.framerate = 32
-output = np.empty((720, 1280, 3), dtype=np.uint8)
+camera.resolution = (720, 480)
+# camera.framerate = 32
+output = np.empty((480, 720, 3), dtype=np.uint8)
 # rawCapture = PiRGBArray(camera, size=(1280, 720))
 
 notify = notifier()
@@ -77,7 +77,7 @@ while True:
     rgb_small_frame = small_frame
 
     # Only process every other frame of video to save time
-    if process_this_frame:
+    if process_this_frame == 5:
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
@@ -100,8 +100,9 @@ while True:
                 name = known_face_names[best_match_index]
 
             face_names.append(name)
+        process_this_frame == 0
 
-    process_this_frame = not process_this_frame
+    process_this_frame += 1
 
 
     # Display the results
