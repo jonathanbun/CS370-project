@@ -64,7 +64,7 @@ while True:
     # Grab a single frame of video
     # ret, frame = video_capture.read()
 
-    camera.caputure(output, format="rgb")
+    camera.capture(output, format="rgb")
 
     # Resize frame of video to 1/4 size for faster face recognition processing
     # frame = cv2.imread(frame)
