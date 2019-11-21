@@ -105,7 +105,7 @@ while True:
             face_names.append(name)
         # process_this_frame == 0
 
-    process_this_frame = !process_this_frame
+    process_this_frame = not process_this_frame
 
 
     # Display the results
