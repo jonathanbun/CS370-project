@@ -122,12 +122,12 @@ while True:
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
         cv2.imwrite("caputure.jpg", frame)
 
-        # if(time.time() - timePeriod > notifyInterval):
+        if(time.time() - timePeriod > notifyInterval):
 
 
-        #     timePeriod = time.time()
+            timePeriod = time.time()
 
-        #     notify.send(name, "jgarc110@rams.colostate.edu", "capture.jpg")
+            notify.send(name, "jgarc110@rams.colostate.edu", "capture.jpg")
 
     # Display the resulting image
     cv2.imshow('Video', frame)
