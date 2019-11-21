@@ -47,10 +47,10 @@ face_encodings = []
 face_names = []
 process_this_frame = 0
 
-camera = PiCamera()
-camera.resolution = (720, 480)
-camera.framerate = 32
-output = np.empty((480, 720, 3), dtype=np.uint8)
+camera = picamera.PiCamera()
+camera.resolution = (320, 280)
+# camera.framerate = 32
+output = np.empty((240, 320, 3), dtype=np.uint8)
 # rawCapture = PiRGBArray(camera, size=(1280, 720))
 
 # notify = notifier()
