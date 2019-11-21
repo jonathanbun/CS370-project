@@ -2,6 +2,8 @@ import face_recognition
 import cv2
 import numpy as np
 import os
+import time
+from notify import *
 
 video_capture = cv2.VideoCapture(0)
 
@@ -41,6 +43,12 @@ face_locations = []
 face_encodings = []
 face_names = []
 process_this_frame = 0
+
+notify = notifier()
+
+timePeriod = 0
+
+notifyInterval = 600
 
 while True:
     # Grab a single frame of video
@@ -96,6 +104,14 @@ while True:
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+
+        cv2.imwrite("capture.jpg",frame)
+
+        if (time.time()-timePeriod) > notifyInterval:
+
+            timePeriod = time.time()
+            
+            notifier.send("capture.jpg")
 
     # Display the resulting image
     cv2.imshow('Video', frame)
