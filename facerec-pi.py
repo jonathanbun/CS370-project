@@ -118,7 +118,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
             timePeriod = time.time()
 
-            notifier.send(name, "jgarc110@rams.colostate.edu", )
+            notifier.send(name, "jgarc110@rams.colostate.edu", "capture.jpg")
 
     # Display the resulting image
     cv2.imshow('Video', frame)
