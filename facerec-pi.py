@@ -5,6 +5,7 @@ import os
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from datetime import *
+import notify
 
 # video_capture = cv2.VideoCapture(0)
 
