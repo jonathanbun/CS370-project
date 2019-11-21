@@ -47,7 +47,7 @@ while True:
     ret, frame = video_capture.read()
 
     # Resize frame of video to 1/4 size for faster face recognition processing
-    small_frame = cv2.resize(frame, (0, 0), fx=0.15, fy=0.15)
+    small_frame = cv2.resize(frame, (0, 0), fx=0.2, fy=0.2)
 
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
     rgb_small_frame = small_frame[:, :, ::-1]
@@ -65,9 +65,9 @@ while True:
             name = "Unknown"
 
             # # If a match was found in known_face_encodings, just use the first one.
-            if True in matches:
-                first_match_index = matches.index(True)
-                name = known_face_names[first_match_index]
+            # if True in matches:
+            #     first_match_index = matches.index(True)
+            #     name = known_face_names[first_match_index]
 
             # Or instead, use the known face with the smallest distance to the new face
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
@@ -84,10 +84,10 @@ while True:
     # Display the results
     for (top, right, bottom, left), name in zip(face_locations, face_names):
         # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-        top *= 6.67
-        right *= 6.67
-        bottom *= 6.67
-        left *= 6.67
+        top *= 5
+        right *= 5
+        bottom *= 5
+        left *= 5
 
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
