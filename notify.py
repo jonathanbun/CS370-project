@@ -16,7 +16,7 @@ class notifier:
 		fromEmail = "jgarcia6102@gmail.com"
 		# for the sake of security we will add the app password when we're testing it/demoing
 		# dont want my email password floating around on github
-		appPassword = ""
+		appPassword = "zcwvguwdmtkfiuyk"
 		# to email is recipient which is an email address
 		toEmail = recipient
 
