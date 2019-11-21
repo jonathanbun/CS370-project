@@ -51,7 +51,7 @@ class notifier:
 		# attach image to the message
 		msg.attach(image)
 
-		smtpObj.sendmail(readImage, toEmail, msg.as_String())
+		smtpObj.sendmail(readImage, toEmail, msg.as_string())
 
 		smtpObj.quit()
 
