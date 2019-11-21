@@ -33,8 +33,6 @@ with open('enrolled.txt') as fp:
 
         image = face_recognition.load_image_file(os.getcwd() + "/Images/" + data[1].replace("\n",""))
 
-        image = face_recognition.load_image_file(os.getcwd() + "/Images/" + data[1].strip('\n'))
-
         image_encoding = face_recognition.face_encodings(image)[0]
         known_face_encodings.append(image_encoding)
 
