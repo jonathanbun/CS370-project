@@ -47,7 +47,7 @@ face_encodings = []
 face_names = []
 process_this_frame = 0
 
-camera = picamera.PiCamera()
+camera = PiCamera()
 camera.resolution = (320, 280)
 # camera.framerate = 32
 output = np.empty((240, 320, 3), dtype=np.uint8)
