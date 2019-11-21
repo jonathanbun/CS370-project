@@ -111,7 +111,7 @@ while True:
 
             timePeriod = time.time()
             
-            notifier.send("capture.jpg")
+            notifiy.send("capture.jpg")
 
     # Display the resulting image
     cv2.imshow('Video', frame)
