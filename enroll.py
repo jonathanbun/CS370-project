@@ -3,6 +3,9 @@ import cv2
 import numpy as np
 import os
 import shutil
+# from tkinter import filedialog
+# from tkinter import *
+
 
 def main():
 	img_name = ""
@@ -10,6 +13,10 @@ def main():
 	decision = input("Enter '1' for uploading an image or '2' for taking an image with the webcam\n")
 	if decision == "1":
 		img_name = input("Please enter image name with extension and place into folder:\n")
+
+		# root = Tk()
+		# root.filename = filedialog.askopenfilename(initialdir = "/", title = "Select Enrollment Image", filetypes = (("jpeg files", "*.jpg"), ("all files", "*.*")))
+		# img_name = root.filename
 	elif decision == "2": 
 		print("Camera is opening, press spacebar to take image\n")
 		cam = cv2.VideoCapture(0)

@@ -2,8 +2,11 @@ import face_recognition
 import cv2
 import numpy as np
 import os
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
 
-video_capture = cv2.VideoCapture(0)
+# video_capture = cv2.VideoCapture(0)
 
 # # Load a sample picture and learn how to recognize it.
 # obama_image = face_recognition.load_image_file("obama.jpg")
@@ -42,9 +45,16 @@ face_encodings = []
 face_names = []
 process_this_frame = True
 
-while True:
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(640, 480))
+
+time.sleep(0.1)
+
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
     # Grab a single frame of video
-    ret, frame = video_capture.read()
+    # ret, frame = video_capture.read()
 
     # Resize frame of video to 1/4 size for faster face recognition processing
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
@@ -104,5 +114,5 @@ while True:
         break
 
 # Release handle to the webcam
-video_capture.release()
+# video_capture.release()
 cv2.destroyAllWindows()
