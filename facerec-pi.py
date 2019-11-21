@@ -50,7 +50,8 @@ process_this_frame = True
 camera = PiCamera()
 camera.resolution = (1280, 720)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(1280, 720))
+output = np.empty((720, 1280, 3), dtype=np.uint8)
+# rawCapture = PiRGBArray(camera, size=(1280, 720))
 
 notify = notifier()
 
@@ -60,12 +61,14 @@ timePeriod = 0
 
 time.sleep(0.1)
 
-for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+while True:
     # Grab a single frame of video
     # ret, frame = video_capture.read()
 
+    camera.caputure(output, format="rgb")
+
     # Resize frame of video to 1/4 size for faster face recognition processing
-    frame = cv2.imread(frame)
+    # frame = cv2.imread(frame)
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
