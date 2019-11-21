@@ -49,9 +49,9 @@ face_names = []
 process_this_frame = True
 
 camera = picamera.PiCamera()
-camera.resolution = (640, 360)
+camera.resolution = (320, 240)
 # camera.framerate = 32
-output = np.empty((360, 640, 3), dtype=np.uint8)
+output = np.empty((240, 320, 3), dtype=np.uint8)
 # rawCapture = PiRGBArray(camera, size=(1280, 720))
 
 # notify = notifier()
@@ -60,7 +60,7 @@ output = np.empty((360, 640, 3), dtype=np.uint8)
 
 timePeriod = 0 
 
-time.sleep(1)
+time.sleep(.1)
 
 while True:
     # Grab a single frame of video
