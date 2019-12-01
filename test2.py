@@ -142,6 +142,7 @@ with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         address = ('', 8000)
         server = StreamingServer(address, StreamingHandler)
         server.serve_forever()
+        print("test")
         ret, frame = video_capture.read()
 
         # Resize frame of video to 1/4 size for faster face recognition processing
