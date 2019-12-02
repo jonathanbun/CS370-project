@@ -110,10 +110,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        self.shutdown()
-        self.server_close()
-        run()
-
+        prin("CLICK")
+        StreamingServer.close_shop()
 
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
@@ -122,6 +120,12 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     def __init__(self, address, handler, output):
         handler.output = output
         super().__init__(address, handler)
+
+    def close_shop():
+        self.shutdown()
+        self.server_close()
+        run()
+
 
 #****************************************TESTCODE***********************************************
 
