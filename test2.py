@@ -64,6 +64,7 @@ class StreamingOutput(object):
         return self.buffer.write(buf)
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
+    output = None
     #handle HTTP requests that arrive at the server
     #no explict constructor is necessary 
     def do_GET(self):
@@ -108,6 +109,9 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     #daemon threads don't need to be tracked, they will be killed automatically when the program exits
     daemon_threads = True
+     def __init__(self, address, handler, output):
+        handler.output = output
+        super().__init__(address, handler)
 
 #****************************************TESTCODE***********************************************
 
