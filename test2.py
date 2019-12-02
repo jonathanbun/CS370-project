@@ -147,6 +147,7 @@ def run2():
             server.serve_forever()
         finally:
             camera.stop_recording()
+    run()
 
 
 def run():
