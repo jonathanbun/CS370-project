@@ -109,6 +109,9 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_error(404)
             self.end_headers()
 
+    def do_POST(self):
+        print("CLICK")
+
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     #daemon threads don't need to be tracked, they will be killed automatically when the program exits
