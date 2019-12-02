@@ -191,7 +191,7 @@ def run():
                     name = known_face_names[first_match_index]
                 if False in matches:
                     print("Unknown")
-                    b = false
+                    b = False
 
                     
 
