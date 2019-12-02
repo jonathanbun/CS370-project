@@ -7,7 +7,7 @@ from notify import *
 import io #buffered binary streams
 import picamera #camera API
 import socketserver #framework for network server
-import logging #log error messages
+import logging #needed for streaming handler
 from threading import Condition #allow thread to wait until notified
 from http import server #need to impliment server
 
@@ -39,7 +39,9 @@ PAGE="""\
 <body>
 <center><h1>Pi Camera Video Feed</h1></center>
 <center><img src="stream.mjpg" width="640" height="480"></center>
-<center> <button type="button">Click Me!</button></center>
+<center> <form action="" method="post">
+    <input type="submit" name="upvote" value="Upvote" />
+</form></center>
 </body>
 </html>
 """
