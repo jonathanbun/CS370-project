@@ -39,6 +39,7 @@ PAGE="""\
 <body>
 <center><h1>Pi Camera Video Feed</h1></center>
 <center><img src="stream.mjpg" width="640" height="480"></center>
+<center> <button type="button">Click Me!</button></center>
 </body>
 </html>
 """
