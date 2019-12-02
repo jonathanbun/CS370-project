@@ -186,6 +186,7 @@ def run():
                     first_match_index = matches.index(True)
                     name = known_face_names[first_match_index]
                 if False in matches:
+                    print("Unknown")
                     video_capture.release()
                     cv2.destroyAllWindows()
                     run2()
