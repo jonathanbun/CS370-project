@@ -110,8 +110,9 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        prin("CLICK")
+        print("CLICK")
         StreamingServer.close_shop()
+        Print("close_shop")
 
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
