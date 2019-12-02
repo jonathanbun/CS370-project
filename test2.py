@@ -161,7 +161,9 @@ def run():
 
     video_capture = cv2.VideoCapture(0)
 
-    while True:
+    b = True
+
+    while b:
         # Grab a single frame of video
         ret, frame = video_capture.read()
 
@@ -189,19 +191,9 @@ def run():
                     name = known_face_names[first_match_index]
                 if False in matches:
                     print("Unknown")
-                    video_capture.release()
-                    cv2.destroyAllWindows()
-                    time.sleep(2)
-                    with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
-                        output = StreamingOutput()
-                        print("past output")
-                        camera.start_recording(output, format='mjpeg')
-                        try:
-                            address = ('', 8000)
-                            server = StreamingServer(address, StreamingHandler, output)
-                            server.serve_forever()
-                        finally:
-                            camera.stop_recording()
+                    b = false
+
+                    
 
                 
 
@@ -230,4 +222,14 @@ def run():
 
 run()
 
+with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
+        output = StreamingOutput()
+        print("past output")
+        camera.start_recording(output, format='mjpeg')
+        try:
+            address = ('', 8000)
+            server = StreamingServer(address, StreamingHandler, output)
+            server.serve_forever()
+        finally:
+            camera.stop_recording()
 
