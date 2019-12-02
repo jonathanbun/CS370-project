@@ -10,8 +10,25 @@ import socketserver #framework for network server
 import logging #log error messages
 from threading import Condition #allow thread to wait until notified
 from http import server #need to impliment server
-import threading
 
+
+known_face_encodings = []
+known_face_names = []
+# Will open text file of names/images and add line by line to model
+with open('enrolled.txt') as fp:
+    for person in fp:
+        data = person.split("^^")
+        known_face_names.append(data[0])
+
+        image = face_recognition.load_image_file(os.getcwd() + "/Images/" + data[1].replace("\n",""))
+
+        image_encoding = face_recognition.face_encodings(image)[0]
+        known_face_encodings.append(image_encoding)
+
+
+face_locations = []
+face_encodings = []
+face_names = []
 
 #HTML for website
 PAGE="""\
@@ -94,21 +111,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 #****************************************TESTCODE***********************************************
 
-def run():
-    with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
-        output = StreamingOutput()
-        camera.start_recording(output, format='mjpeg')
-        try:
-            address = ('', 8000)
-            server = StreamingServer(address, StreamingHandler)
-            server.serve_forever()
-        finally:
-            camera.stop_recording()
 
-t1 = threading.Thread(target=run, name="t1")
-t1.start()
-
-video_capture = cv2.VideoCapture(0)
 
 # # Load a sample picture and learn how to recognize it.
 # obama_image = face_recognition.load_image_file("obama.jpg")
@@ -128,101 +131,83 @@ video_capture = cv2.VideoCapture(0)
 #     "Joe Biden"
 # ]
 
-known_face_encodings = []
-known_face_names = []
-# Will open text file of names/images and add line by line to model
-with open('enrolled.txt') as fp:
-    for person in fp:
-        data = person.split("^^")
-        known_face_names.append(data[0])
+def run():
+    process_this_frame = 0
 
-        image = face_recognition.load_image_file(os.getcwd() + "/Images/" + data[1].replace("\n",""))
+    notify = notifier()
 
-        image_encoding = face_recognition.face_encodings(image)[0]
-        known_face_encodings.append(image_encoding)
+    timePeriod = 0
 
+    notifyInterval = 600
 
-face_locations = []
-face_encodings = []
-face_names = []
-process_this_frame = 0
+    video_capture = cv2.VideoCapture(0)
 
-notify = notifier()
+    while True:
+        # Grab a single frame of video
+        ret, frame = video_capture.read()
 
-timePeriod = 0
+        # Resize frame of video to 1/4 size for faster face recognition processing
+        small_frame = cv2.resize(frame, (0, 0), fx=0.2, fy=0.2)
 
-notifyInterval = 600
+        # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
+        rgb_small_frame = small_frame[:, :, ::-1]
 
-while True:
-    # Grab a single frame of video
-    ret, frame = video_capture.read()
+        # Only process every other frame of video to save time
+        if process_this_frame == 4:
+            # Find all the faces and face encodings in the current frame of video
+            face_locations = face_recognition.face_locations(rgb_small_frame)
+            face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
 
-    # Resize frame of video to 1/4 size for faster face recognition processing
-    small_frame = cv2.resize(frame, (0, 0), fx=0.2, fy=0.2)
+            face_names = []
+            for face_encoding in face_encodings:
+                # See if the face is a match for the known face(s)
+                matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
+                name = "Unknown"
 
-    # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-    rgb_small_frame = small_frame[:, :, ::-1]
+                # # If a match was found in known_face_encodings, just use the first one.
+                if True in matches:
+                    first_match_index = matches.index(True)
+                    name = known_face_names[first_match_index]
+                if False in matches:
+                    video_capture.release()
+                    cv2.destroyAllWindows()
+                    run2()
 
-    # Only process every other frame of video to save time
-    if process_this_frame == 4:
-        # Find all the faces and face encodings in the current frame of video
-        face_locations = face_recognition.face_locations(rgb_small_frame)
-        face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+                
 
-        face_names = []
-        for face_encoding in face_encodings:
-            # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-            name = "Unknown"
+                # Or instead, use the known face with the smallest distance to the new face
+                face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+                best_match_index = np.argmin(face_distances)
+                if matches[best_match_index]:
+                    name = known_face_names[best_match_index]
 
-            # # If a match was found in known_face_encodings, just use the first one.
-            if True in matches:
-                first_match_index = matches.index(True)
-                name = known_face_names[first_match_index]
+                face_names.append(name)
+            process_this_frame = 0
 
-            # Or instead, use the known face with the smallest distance to the new face
-            face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-            best_match_index = np.argmin(face_distances)
-            if matches[best_match_index]:
-                name = known_face_names[best_match_index]
-
-            face_names.append(name)
-        process_this_frame = 0
-
-    process_this_frame = process_this_frame + 1
+        process_this_frame = process_this_frame + 1
 
 
-    # Display the results
-    for (top, right, bottom, left), name in zip(face_locations, face_names):
-        # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-        top *= 5
-        right *= 5
-        bottom *= 5
-        left *= 5
+        # Hit 'q' on the keyboard to quit!
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
-        # Draw a box around the face
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+    # Release handle to the webcam
+    video_capture.release()
+    cv2.destroyAllWindows()
 
-        # Draw a label with a name below the face
-        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-        font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+def run2():
+    with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
+        output = StreamingOutput()
+        camera.start_recording(output, format='mjpeg')
+        try:
+            address = ('', 8000)
+            server = StreamingServer(address, StreamingHandler)
+            server.serve_forever()
+        finally:
+            camera.stop_recording()
 
-        cv2.imwrite("capture.jpg",frame)
 
-        if (time.time()-timePeriod) > notifyInterval:
 
-            timePeriod = time.time()
-            
-            notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+run()
 
-    # Display the resulting image
-    cv2.imshow('Video', frame)
 
-    # Hit 'q' on the keyboard to quit!
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# Release handle to the webcam
-video_capture.release()
-cv2.destroyAllWindows()
