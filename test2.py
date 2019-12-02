@@ -109,7 +109,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     #daemon threads don't need to be tracked, they will be killed automatically when the program exits
     daemon_threads = True
-     def __init__(self, address, handler, output):
+    def __init__(self, address, handler, output):
         handler.output = output
         super().__init__(address, handler)
 
