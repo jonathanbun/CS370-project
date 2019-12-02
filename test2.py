@@ -98,7 +98,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     self.wfile.write(frame)
                     self.wfile.write(b'\r\n')
             except Exception as e:
-                print("Exception")
+                print("Exceptionnnnnnnnn")
                 logging.warning(
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
@@ -139,6 +139,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 def run2():
     with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         output = StreamingOutput()
+        print("past output")
         camera.start_recording(output, format='mjpeg')
         try:
             address = ('', 8000)
@@ -190,6 +191,7 @@ def run():
                     print("Unknown")
                     video_capture.release()
                     cv2.destroyAllWindows()
+                    time.sleep(2)
                     run2()
 
                 
