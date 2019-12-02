@@ -132,6 +132,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 # ]
 
 def run():
+    print("RUN")
     process_this_frame = 0
 
     notify = notifier()
