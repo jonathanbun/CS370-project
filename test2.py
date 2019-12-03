@@ -177,7 +177,7 @@ def run2(q):
         
         try:
             server = StreamingServer(address, StreamingHandler, output, q) 
-            while q.Empty():
+            while q.empty():
                 server.handle_request()
         finally:
             camera.stop_recording()
