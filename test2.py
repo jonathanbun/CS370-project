@@ -176,7 +176,7 @@ def run2(q):
         address = ('', 8000)
         
         server = StreamingServer(address, StreamingHandler, output, q) 
-        while !q.get()
+        while !q.get():
             server.handle_request()
 
         finally:
