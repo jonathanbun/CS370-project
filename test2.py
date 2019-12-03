@@ -170,7 +170,7 @@ class StreamingServer(server.HTTPServer):
 def run2():
     
         output = StreamingOutput()
-        video_capture = cv2.VideoWriter.open(output, "mjpeg", 30)
+        video_capture = cv2.CreateVideoWriter(output, "mjpeg", 30)
         
         
         try:
