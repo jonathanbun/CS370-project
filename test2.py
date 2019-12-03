@@ -224,6 +224,8 @@ def run():
             for face_encoding in face_encodings:
                 # See if the face is a match for the known face(s)
                 matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
+                name = "Unknown"
+
 
                 # # If a match was found in known_face_encodings, just use the first one.
                 if True in matches:
