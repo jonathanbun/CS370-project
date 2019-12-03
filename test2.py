@@ -234,7 +234,6 @@ def run():
                     video_capture.release()
                     cv2.destroyAllWindows()
                     time.sleep(2)
-                    q = Queue()
                     t1 = _thread.start_new_thread(target = run2(q), args =(q, )) 
                     t1.start()
                     while q.empty():
