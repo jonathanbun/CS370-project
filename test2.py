@@ -11,7 +11,7 @@ import picamera #camera API
 import socketserver #framework for network server
 import logging #needed for streaming handler
 from threading import Condition #allow thread to wait until notified
-import threading
+import thread
 from http import server #need to impliment server
 import sys
 import psutil
@@ -236,7 +236,7 @@ def run():
                     cv2.destroyAllWindows()
                     time.sleep(2)
                     q = Queue()
-                    t1 = Thread(target = run2(), args =(q, )) 
+                    t1 = _thread.start_new_thread(target = run2(), args =(q, )) 
                     t1.start()
                     t1.join()
 
