@@ -16,6 +16,7 @@ from http import server #need to impliment server
 import sys
 import psutil
 from queue import Queue 
+q = Queue()
 
 
 
@@ -78,7 +79,6 @@ class StreamingOutput(object):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     output = None
-    q = None
 
     
     #handle HTTP requests that arrive at the server
@@ -130,9 +130,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
 class StreamingServer(server.HTTPServer):
     allow_reuse_address = True
 
-    def __init__(self, address, handler, output, q):
+    def __init__(self, address, handler, output):
         handler.output = output
-        handler.q = q
         super().__init__(address, handler)
 
    
@@ -176,7 +175,7 @@ def run2(q):
         address = ('', 8000)
         
         try:
-            server = StreamingServer(address, StreamingHandler, output, q) 
+            server = StreamingServer(address, StreamingHandler, output) 
             while q.empty():
                 server.handle_request()
         finally:
@@ -238,7 +237,10 @@ def run():
                     q = Queue()
                     t1 = _thread.start_new_thread(target = run2(q), args =(q, )) 
                     t1.start()
-                    t1.join()
+                    while q.empty():
+                        continue
+                    video_capture = cv2.VideoCapture(0)
+
 
 
 
