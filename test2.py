@@ -15,7 +15,7 @@ import threading
 from http import server #need to impliment server
 import sys
 import psutil
-from datetime import datetime
+from queue import Queue 
 
 
 
@@ -78,7 +78,7 @@ class StreamingOutput(object):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     output = None
- 
+    q = None
 
     
     #handle HTTP requests that arrive at the server
@@ -121,7 +121,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        print("click")
+        q.put(0)
 
 
         
@@ -130,9 +130,11 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
 class StreamingServer(server.HTTPServer):
     allow_reuse_address = True
 
-    def __init__(self, address, handler, output):
+    def __init__(self, address, handler, output, q):
         handler.output = output
+        handler.q = q
         super().__init__(address, handler)
+
    
 
 
@@ -166,22 +168,19 @@ class StreamingServer(server.HTTPServer):
 #     "Barack Obama",
 #     "Joe Biden"
 # ]
-def run2():
+def run2(q):
     with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         output = StreamingOutput()
         camera.start_recording(output, format='mjpeg')
         
         address = ('', 8000)
         
-        server = StreamingServer(address, StreamingHandler, output) 
-        now = 0
-        then = 5
-        while now < then:
+        server = StreamingServer(address, StreamingHandler, output, q) 
+        while !q.get()
             server.handle_request()
-            now += 1
 
-        
-        camera.stop_recording()
+        finally:
+            camera.stop_recording()
 
 
 
@@ -232,9 +231,14 @@ def run():
                     video_capture.release()
                     cv2.destroyAllWindows()
                     time.sleep(2)
+                    q = Queue()
+                    t1 = Thread(target = run2(), args =(q, )) 
+                    t1.start()
+                    t1.join()
 
-                    run2()
-                    video_capture = cv2.VideoCapture(0)
+
+
+
 
 
                 # Or instead, use the known face with the smallest distance to the new face
