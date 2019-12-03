@@ -174,8 +174,8 @@ def run2():
         address = ('', 8000)
         
         server = StreamingServer(address, StreamingHandler, output) 
-        now = datetime.now().time()
-        then = now + 10
+        now = 0
+        then = 5
         while now < then:
             server.handle_requests()
             now += 1
