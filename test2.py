@@ -17,9 +17,7 @@ import sys
 import psutil
 
 
-def reset():
-    python = sys.executable
-    os.execl(python, python, *sys.argv) 
+
 
 
 known_face_encodings = []
@@ -122,7 +120,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        reset()
+        print("click")
 
 
         
@@ -168,19 +166,21 @@ class StreamingServer(server.HTTPServer):
 #     "Joe Biden"
 # ]
 def run2():
-    
+    with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         output = StreamingOutput()
-        video_capture = cv2.CreateVideoWriter(output, "mjpeg", 30)
+        camera.start_recording(output, format='mjpeg')
         
+        address = ('', 8000)
         
-        try:
-            address = ('', 8000)
-        
-            server = StreamingServer(address, StreamingHandler, output) 
-            server.serve_forever()
+        server = StreamingServer(address, StreamingHandler, output) 
+        now = datetime.now().time()
+        then = now + 10
+        while now < then:
+            server.handle_requests()
+            now += 1
 
-        finally:
-            print("done")
+        
+        camera.stop_recording()
 
 
 
@@ -228,12 +228,12 @@ def run():
                     name = known_face_names[first_match_index]
                 if False in matches:
                     print("Unknown face detected")
-                    
-                    time.sleep(2)
                     video_capture.release()
                     cv2.destroyAllWindows()
+                    time.sleep(2)
 
                     run2()
+                    video_capture = cv2.VideoCapture(0)
 
 
                 # Or instead, use the known face with the smallest distance to the new face
