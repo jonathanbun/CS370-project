@@ -181,6 +181,8 @@ def run2(q):
                 server.handle_request()
         finally:
             camera.stop_recording()
+    camera.stop_recording()
+    print("done")
     return 1
 
         
