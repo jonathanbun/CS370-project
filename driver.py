@@ -6,4 +6,4 @@ while True:
 	if response == "live":
 		server.run()
 	if response == "fr":
-		print ("fr")
+		facerec.run()
