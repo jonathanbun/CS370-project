@@ -236,7 +236,8 @@ def run():
                     time.sleep(2)
                     t1 = _thread.start_new_thread(run2, (q, )) 
                    
-                    t1.join()
+                    while q.empty():
+                        continue
                     video_capture = cv2.VideoCapture(0)
 
 
