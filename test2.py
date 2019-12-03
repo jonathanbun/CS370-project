@@ -11,7 +11,7 @@ import picamera #camera API
 import socketserver #framework for network server
 import logging #needed for streaming handler
 from threading import Condition #allow thread to wait until notified
-import thread
+import _thread
 from http import server #need to impliment server
 import sys
 import psutil
