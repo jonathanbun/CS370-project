@@ -228,10 +228,7 @@ def run():
                     cv2.destroyAllWindows()
                     time.sleep(2)
 
-                    p = Process(target=run2(), args=('null',))
-                    p.start()
-                    p.join()
-                    video_capture = cv2.VideoCapture(0)
+                    run2()
 
 
                 # Or instead, use the known face with the smallest distance to the new face
