@@ -180,7 +180,7 @@ def run2(q):
                 server.handle_request()
         finally:
             camera.stop_recording()
-        
+    return 1
 
         
     
@@ -236,8 +236,7 @@ def run():
                     time.sleep(2)
                     t1 = _thread.start_new_thread(run2, (q, )) 
                     t1.start()
-                    while q.empty():
-                        continue
+                    t1.join()
                     video_capture = cv2.VideoCapture(0)
 
 
