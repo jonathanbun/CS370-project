@@ -16,9 +16,6 @@ PAGE="""\
 <body>
 <center><h1>Pi Camera Video Feed</h1></center>
 <center><img src="stream.mjpg" width="640" height="480"></center>
-<center> <form action="" method="post">
-    <input type="submit" name="upvote" value="Upvote" />
-</form></center>
 </body>
 </html>
 """
@@ -45,7 +42,6 @@ class StreamingOutput(object):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     output = None
-    server = None
     #handle HTTP requests that arrive at the server
     def do_GET(self):
         if self.path == '/':
@@ -86,9 +82,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_error(404)
             self.end_headers()
 
-    def do_POST(self):
-       sys.exit()
-        
 
 
 
@@ -100,30 +93,21 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     daemon_threads = True
     def __init__(self, address, handler, output):
         handler.output = output
-        self.stop = False
         super().__init__(address, handler)
 
 
 
    
-
-if __name__ == "__main__":
+def run():
     with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         output = StreamingOutput()
-        print("past output")
         camera.start_recording(output, format='mjpeg')
         try:
             address = ('', 8000)
-            sH = StreamingHandler
         
-
-            server = StreamingServer(address, sH, output)
-            sH.server = server
+            server = StreamingServer(address, StreamingHandler, output)
             server.serve_forever()
 
-
-            
-            print("yes")
         finally:
             camera.stop_recording()
 
