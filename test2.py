@@ -121,6 +121,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
+        print("click")
         q.put(1)
 
 
@@ -236,10 +237,13 @@ def run():
                     video_capture.release()
                     cv2.destroyAllWindows()
                     time.sleep(2)
+                    print("Starting thread")
                     t1 = _thread.start_new_thread(run2, (q, )) 
                    
                     while q.empty():
+                        print("q is empty")
                         continue
+                    print("finished thread")
                     video_capture = cv2.VideoCapture(0)
 
 
