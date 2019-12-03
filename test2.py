@@ -15,24 +15,8 @@ import threading
 from http import server #need to impliment server
 import sys
 import psutil
-#!/usr/bin/python3.7
 
-running = True
-def restart_program():
-    """Restarts the current program, with file objects and descriptors
-       cleanup
-    """
 
-    try:
-        p = psutil.Process(os.getpid())
-        for handler in p.get_open_files() + p.connections():
-            os.close(handler.fd)
-    except Exception as e:
-        logging.error(e)
-
-    python = sys.executable
-    print("restarting")
-    os.execl(python, python, *sys.argv)
 
 
 
@@ -128,7 +112,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     self.wfile.write(frame)
                     self.wfile.write(b'\r\n')
             except Exception as e:
-                print("Exceptionnnnnnnnn")
                 logging.warning(
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
@@ -137,14 +120,14 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        running = False
+        print("click")
+
 
         
 
 
 class StreamingServer(server.HTTPServer):
     allow_reuse_address = True
-    daemon_threads = True
 
     def __init__(self, address, handler, output):
         handler.output = output
