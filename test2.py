@@ -17,7 +17,9 @@ import sys
 import psutil
 
 
-
+def reset():
+    python = sys.executable
+    os.execl(python, python, *sys.argv) 
 
 
 known_face_encodings = []
@@ -120,7 +122,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        print("click")
+        reset()
 
 
         
@@ -166,9 +168,11 @@ class StreamingServer(server.HTTPServer):
 #     "Joe Biden"
 # ]
 def run2():
-    with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
+    
         output = StreamingOutput()
-        camera.start_recording(output, format='mjpeg')
+        video_capture = cv2.VideoWriter.open(output, "mjpeg", 30)
+        
+        
         try:
             address = ('', 8000)
         
@@ -176,7 +180,7 @@ def run2():
             server.serve_forever()
 
         finally:
-            camera.stop_recording()
+            print("done")
 
 
 
@@ -224,9 +228,10 @@ def run():
                     name = known_face_names[first_match_index]
                 if False in matches:
                     print("Unknown face detected")
+                    
+                    time.sleep(2)
                     video_capture.release()
                     cv2.destroyAllWindows()
-                    time.sleep(2)
 
                     run2()
 
