@@ -177,7 +177,7 @@ def run2():
         now = 0
         then = 5
         while now < then:
-            server.handle_requests()
+            server.handle_request()
             now += 1
 
         
