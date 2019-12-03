@@ -11,11 +11,12 @@ import picamera #camera API
 import socketserver #framework for network server
 import logging #needed for streaming handler
 from threading import Condition #allow thread to wait until notified
-import threading
+import _thread
 from http import server #need to impliment server
 import sys
 import psutil
-from datetime import datetime
+from queue import Queue 
+q = Queue()
 
 
 
@@ -78,7 +79,6 @@ class StreamingOutput(object):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     output = None
- 
 
     
     #handle HTTP requests that arrive at the server
@@ -122,6 +122,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
 
     def do_POST(self):
         print("click")
+        q.put(1)
 
 
         
@@ -133,6 +134,7 @@ class StreamingServer(server.HTTPServer):
     def __init__(self, address, handler, output):
         handler.output = output
         super().__init__(address, handler)
+
    
 
 
@@ -166,22 +168,25 @@ class StreamingServer(server.HTTPServer):
 #     "Barack Obama",
 #     "Joe Biden"
 # ]
-def run2():
+def run2(q):
     with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         output = StreamingOutput()
         camera.start_recording(output, format='mjpeg')
         
         address = ('', 8000)
         
-        server = StreamingServer(address, StreamingHandler, output) 
-        now = 0
-        then = 5
-        while now < then:
-            server.handle_request()
-            now += 1
+        try:
+            server = StreamingServer(address, StreamingHandler, output) 
+            while q.empty():
+                server.handle_request()
+        finally:
+            camera.stop_recording()
+    camera.stop_recording()
+    print("done")
+    return 1
 
         
-        camera.stop_recording()
+    
 
 
 
@@ -222,6 +227,8 @@ def run():
             for face_encoding in face_encodings:
                 # See if the face is a match for the known face(s)
                 matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
+                name = "Unknown"
+
 
                 # # If a match was found in known_face_encodings, just use the first one.
                 if True in matches:
@@ -232,9 +239,19 @@ def run():
                     video_capture.release()
                     cv2.destroyAllWindows()
                     time.sleep(2)
-
-                    run2()
+                    print("Starting thread")
+                    t1 = _thread.start_new_thread(run2, (q, )) 
+                   
+                    while q.empty():
+                        print("q is empty")
+                        continue
+                    print("finished thread")
                     video_capture = cv2.VideoCapture(0)
+
+
+
+
+
 
 
                 # Or instead, use the known face with the smallest distance to the new face
