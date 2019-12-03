@@ -121,7 +121,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        q.put()
+        q.put(1)
 
 
         
