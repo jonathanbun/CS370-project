@@ -121,7 +121,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        q.put(0)
+        q.put()
 
 
         
@@ -176,7 +176,7 @@ def run2(q):
         address = ('', 8000)
         
         server = StreamingServer(address, StreamingHandler, output, q) 
-        while !q.get():
+        while q.Empty():
             server.handle_request()
 
         finally:
@@ -221,8 +221,6 @@ def run():
             for face_encoding in face_encodings:
                 # See if the face is a match for the known face(s)
                 matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-                name = "Unknown"
-
 
                 # # If a match was found in known_face_encodings, just use the first one.
                 if True in matches:
