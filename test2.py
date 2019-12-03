@@ -4,12 +4,36 @@ import numpy as np
 import os
 import time
 from notify import *
+from multiprocessing import Process
+import server
 import io #buffered binary streams
 import picamera #camera API
 import socketserver #framework for network server
 import logging #needed for streaming handler
 from threading import Condition #allow thread to wait until notified
+import threading
 from http import server #need to impliment server
+import sys
+import psutil
+#!/usr/bin/python3.7
+
+running = True
+def restart_program():
+    """Restarts the current program, with file objects and descriptors
+       cleanup
+    """
+
+    try:
+        p = psutil.Process(os.getpid())
+        for handler in p.get_open_files() + p.connections():
+            os.close(handler.fd)
+    except Exception as e:
+        logging.error(e)
+
+    python = sys.executable
+    print("restarting")
+    os.execl(python, python, *sys.argv)
+
 
 
 known_face_encodings = []
@@ -30,6 +54,7 @@ face_locations = []
 face_encodings = []
 face_names = []
 
+
 #HTML for website
 PAGE="""\
 <html>
@@ -40,7 +65,7 @@ PAGE="""\
 <center><h1>Pi Camera Video Feed</h1></center>
 <center><img src="stream.mjpg" width="640" height="480"></center>
 <center> <form action="" method="post">
-    <input type="submit" name="upvote" value="Upvote" />
+    <input type="submit" name="Close stream" value="Close stream" />
 </form></center>
 </body>
 </html>
@@ -68,8 +93,10 @@ class StreamingOutput(object):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     output = None
+ 
+
+    
     #handle HTTP requests that arrive at the server
-    #no explict constructor is necessary 
     def do_GET(self):
         if self.path == '/':
             self.send_response(301)
@@ -110,22 +137,28 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        print("CLICK")
-        StreamingServer.close_shop()
-        Print("close_shop")
+        running = False
 
-class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
+        
+
+
+class StreamingServer(server.HTTPServer):
     allow_reuse_address = True
-    #daemon threads don't need to be tracked, they will be killed automatically when the program exits
     daemon_threads = True
+
     def __init__(self, address, handler, output):
         handler.output = output
         super().__init__(address, handler)
+   
 
-    def close_shop():
-        self.shutdown()
-        self.server_close()
-        run()
+
+
+
+        
+
+        
+  
+
 
 
 #****************************************TESTCODE***********************************************
@@ -149,19 +182,21 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 #     "Barack Obama",
 #     "Joe Biden"
 # ]
-
 def run2():
     with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         output = StreamingOutput()
-        print("past output")
         camera.start_recording(output, format='mjpeg')
         try:
             address = ('', 8000)
-            server = StreamingServer(address, StreamingHandler, output)
+        
+            server = StreamingServer(address, StreamingHandler, output) 
             server.serve_forever()
+
         finally:
             camera.stop_recording()
-    run()
+
+
+
 
 
 def run():
@@ -180,8 +215,11 @@ def run():
         # Grab a single frame of video
         ret, frame = video_capture.read()
 
-        # Resize frame of video to 1/4 size for faster face recognition processing
+        
+
+            # Resize frame of video to 1/4 size for faster face recognition processing
         small_frame = cv2.resize(frame, (0, 0), fx=0.2, fy=0.2)
+       
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         rgb_small_frame = small_frame[:, :, ::-1]
@@ -196,20 +234,22 @@ def run():
             for face_encoding in face_encodings:
                 # See if the face is a match for the known face(s)
                 matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-                name = "Unknown"
 
                 # # If a match was found in known_face_encodings, just use the first one.
                 if True in matches:
                     first_match_index = matches.index(True)
                     name = known_face_names[first_match_index]
                 if False in matches:
-                    print("Unknown")
+                    print("Unknown face detected")
                     video_capture.release()
                     cv2.destroyAllWindows()
                     time.sleep(2)
-                    run2()
 
-                
+                    p = Process(target=run2(), args=('null',))
+                    p.start()
+                    p.join()
+                    video_capture = cv2.VideoCapture(0)
+
 
                 # Or instead, use the known face with the smallest distance to the new face
                 face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
@@ -230,8 +270,6 @@ def run():
     # Release handle to the webcam
     video_capture.release()
     cv2.destroyAllWindows()
-
-
 
 
 run()
