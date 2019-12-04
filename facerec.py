@@ -120,7 +120,9 @@ def run():
 
         # Hit 'q' on the keyboard to quit!
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            
+            video_capture.release()
+            cv2.destroyAllWindows()
+
             break
 
     # Release handle to the webcam
