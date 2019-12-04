@@ -1,8 +1,8 @@
 import server
 import facerec
-print("#####################################")
-print("#####################################")
-print("#####################################")
+import sys
+print("*************************************")
+print("*************************************")
 print("To run continuous video stream: press 1")
 print("To run facial recognition: press 2")
 print("To exit: press q")
@@ -10,12 +10,19 @@ print("-------------------------------------")
 
 while True:
 	response = input()
-	if response == "2":
+	if response == "1":
 		print("Continuous stream booting...")
 		server.run()
 	if response == "2":
-		print("Facial recognition booting..")
+		print("Facial recognition booting...")
 		facerec.run()
-	if response == "3":
+	if response == "q":
 		print("Shutting down...")
 		sys.exit()
+	else:
+		print("Invalid option selected...")
+		print("-------------------------------------")
+		print("To run continuous video stream: press 1")
+		print("To run facial recognition: press 2")
+		print("To exit: press q")
+		print("-------------------------------------")
