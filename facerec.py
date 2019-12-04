@@ -45,6 +45,7 @@ def run():
     face_encodings = []
     face_names = []
     process_this_frame = 0
+    name = "Unknown"
 
     notify = notifier()
 
@@ -120,7 +121,7 @@ def run():
             notify.send(name, "suyashhiray@gmail.com","capture.jpg")
 
         # Display the resulting image
-        #cv2.imshow('Video', frame)
+        cv2.imshow('Video', frame)
 
         # Hit 'q' on the keyboard to quit!
         if cv2.waitKey(1) & 0xFF == ord('q'):
