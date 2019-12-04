@@ -78,7 +78,7 @@ while True:
     rgb_small_frame = small_frame
 
     # Only process every other frame of video to save time
-    if process_this_frame == 4:
+    if process_this_frame == 2:
         print("processing")
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
@@ -127,12 +127,12 @@ while True:
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
         cv2.imwrite("caputure.jpg", frame)
 
-        # if(time.time() - timePeriod > notifyInterval):
+        if(time.time() - timePeriod > notifyInterval):
 
 
-        #     timePeriod = time.time()
+            timePeriod = time.time()
 
-        #     notify.send(name, "jgarc110@rams.colostate.edu", "capture.jpg")
+            notify.send(name, "jgarc110@rams.colostate.edu", "capture.jpg")
 
     # Display the resulting image
     cv2.imshow('Video', frame)
@@ -142,5 +142,5 @@ while True:
         break
 
 # Release handle to the webcam
-# video_capture.release()
+video_capture.release()
 cv2.destroyAllWindows()
