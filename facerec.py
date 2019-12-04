@@ -28,7 +28,6 @@ def run():
     process_this_frame = 0
     name = "Unknown"
 
-    notify = notifier()
 
     timePeriod = 0
 
@@ -99,13 +98,13 @@ def run():
                 if name != "Unknown":
                     if name not in sent_faces:
                         print("notify")
-                        notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+                        send(name, "suyashhiray@gmail.com","capture.jpg")
                         sent_faces.append(name)
                         face_encodings = None
                 if name == "Unknown":
                     print("notify")
-                    notify.send(name, "suyashhiray@gmail.com","capture.jpg")
-                    sent_faces.append(name)
+                    send(name, "suyashhiray@gmail.com","capture.jpg")
+                    # sent_faces.append(name)
                     face_encodings = None
                     time.sleep(10)
         
