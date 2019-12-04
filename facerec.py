@@ -121,6 +121,7 @@ def run():
             
                 notify.send(name, "suyashhiray@gmail.com","capture.jpg")
                 face_encodings = None
+                time.sleep(10)
 
         
 
