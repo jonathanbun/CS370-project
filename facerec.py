@@ -115,6 +115,7 @@ def run():
             cv2.imwrite("capture.jpg",frame)
 
         if (time.time()-timePeriod) > notifyInterval:
+            print("notify")
 
             timePeriod = time.time()
             
