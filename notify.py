@@ -5,7 +5,7 @@ import smtplib
 from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
-from datetime import date
+from datetime import datetime
 import os
 
 def send(name ,recipientAddress,tempImage):
