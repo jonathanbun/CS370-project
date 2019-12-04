@@ -51,7 +51,7 @@ def run():
 
     timePeriod = 0
 
-    notifyInterval = 600
+    notifyInterval = 300
 
     video_capture = cv2.VideoCapture(0)
 
@@ -68,7 +68,7 @@ def run():
         rgb_small_frame = small_frame[:, :, ::-1]
 
         # Only process every other frame of video to save time
-        if process_this_frame == 1:
+        if process_this_frame == 2:
             # Find all the faces and face encodings in the current frame of video
             face_locations = face_recognition.face_locations(rgb_small_frame)
             face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
