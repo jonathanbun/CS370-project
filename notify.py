@@ -46,7 +46,7 @@ def send(name ,recipientAddress,tempImage):
 <<<<<<< HEAD
 		msg['Subject'] = timeStamp + ": " + name + " is at the door!"
 =======
-		msg['Subject'] = str(timeStamp) + ": " + name + "  is at the door!"
+		msg['Subject'] = str(timeStamp) + ": " + name + " is at the door!"
 >>>>>>> cecfdf71a38d642a2f1d4c60e4c7d676fc0762f6
 	# read the image
 	readImage = open(tempImage, 'rb').read()
