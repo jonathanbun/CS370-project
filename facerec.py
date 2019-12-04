@@ -54,6 +54,8 @@ def run():
 
     video_capture = cv2.VideoCapture(0)
 
+    print("Camera now running")
+
     while True:
         # Grab a single frame of video
         ret, frame = video_capture.read()
