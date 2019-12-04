@@ -107,7 +107,7 @@ def run():
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
-            cv2.imwrite("capture.jpg",frame)
+            cv2.imwrite("capture.jpg",frame)"""
 
             if (time.time()-timePeriod) > notifyInterval:
 
@@ -116,10 +116,11 @@ def run():
                 notify.send(name, "suyashhiray@gmail.com","capture.jpg")
 
         # Display the resulting image
-        cv2.imshow('Video', frame)"""
+        #cv2.imshow('Video', frame)
 
         # Hit 'q' on the keyboard to quit!
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            
             break
 
     # Release handle to the webcam
