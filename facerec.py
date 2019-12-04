@@ -111,14 +111,14 @@ def run():
                 cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
                 font = cv2.FONT_HERSHEY_DUPLEX
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-
+                print("getting frame for notify")
                 cv2.imwrite("capture.jpg",frame)
 
-            if (time.time()-timePeriod) > notifyInterval:
+            # if (time.time()-timePeriod) > notifyInterval:
 
-                timePeriod = time.time()
+            #     timePeriod = time.time()
                 
-                notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+            #     notify.send(name, "suyashhiray@gmail.com","capture.jpg")
 
         # Display the resulting image
         cv2.imshow('Video', frame)
