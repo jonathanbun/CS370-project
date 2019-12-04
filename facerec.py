@@ -119,7 +119,7 @@ def run():
 
                 #timePeriod = time.time()
             
-                notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+                send(name, "suyashhiray@gmail.com","capture.jpg")
                 face_encodings = None
                 time.sleep(10)
 
