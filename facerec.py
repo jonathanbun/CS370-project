@@ -115,14 +115,18 @@ def run():
             print("getting frame for notify")
             cv2.imwrite("capture.jpg",frame)
             if face_encodings:
-                print("notify")
-
-                #timePeriod = time.time()
-            
-                send(name, "suyashhiray@gmail.com","capture.jpg")
-                face_encodings = None
-                time.sleep(10)
-
+                if name != "Unknown":
+                    if name not in sent_faces:
+                        print("notify")
+                        notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+                        sent_faces.append(name)
+                        face_encodings = None
+                if name == "Unknown":
+                    print("notify")
+                    notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+                    sent_faces.append(name)
+                    face_encodings = None
+                    time.sleep(10)
         
 
         # Display the resulting image
