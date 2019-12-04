@@ -5,55 +5,58 @@ import smtplib
 from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
+from datetime import date
 import os
 
+
 # for the sake of oop
-class notifier:
 
-	def send(self, name ,recipientAddress,tempImage):
+def send(self, name ,recipientAddress,tempImage):
 
-		# email we're sending notifications from
-		fromEmail = "jgarcia6102@gmail.com"
-		# for the sake of security we will add the app password when we're testing it/demoing
-		# dont want my email password floating around on github
-		appPassword = "zcwvguwdmtkfiuyk"
-		# to email is recipient which is an email address
-		toEmail = recipientAddress
+	# email we're sending notifications from
+	fromEmail = "jgarcia6102@gmail.com"
+	# for the sake of security we will add the app password when we're testing it/demoing
+	# dont want my email password floating around on github
+	appPassword = "zcwvguwdmtkfiuyk"
+	# to email is recipient which is an email address
+	toEmail = recipientAddress
 
-		# create smtp object, login to the gmail smtp server
-		smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
+	# create smtp object, login to the gmail smtp server
+	smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
 
-		# enable encryption through tls
-		smtpObj.starttls()
+	# enable encryption through tls
+	smtpObj.starttls()
 
-		# initial server handshake
-		smtpObj.ehlo()
+	# initial server handshake
+	smtpObj.ehlo()
 
-		# login to the email address
-		smtpObj.login(fromEmail, appPassword)
+	# login to the email address
+	smtpObj.login(fromEmail, appPassword)
 
-		# create a msg
-		msg = MIMEMultipart()
+	# create a msg
+	msg = MIMEMultipart()
 
-		msg['From'] = fromEmail
-		# if name is unknown say so, else say who is at the door
-		if name == "Unknown":
+	timeStamp = datetime.now()
 
-			msg['Subject'] = "Unknown is at the door!"
+	msg['From'] = fromEmail
+	# if name is unknown say so, else say who is at the door
+	if name == "Unknown":
 
-		else:
+		msg['Subject'] = timeStamp + ": Unknown is at the door!"
 
-			msg['Subject'] = name + "  is at the door!"
-		# read the image
-		readImage = open(tempImage, 'rb').read()
+	else:
 
-		image = MIMEImage(readImage, name=tempImage)
-		# attach image to the message
-		msg.attach(image)
+		msg['Subject'] = timeStamp + ": " name + "  is at the door!"
+	# read the image
+	readImage = open(tempImage, 'rb').read()
 
-		smtpObj.sendmail(fromEmail, toEmail, msg.as_string())
+	image = MIMEImage(readImage, name=tempImage)
+	# attach image to the message
+	msg.attach(image)
 
-		smtpObj.quit()
+	smtpObj.sendmail(fromEmail, toEmail, msg.as_string())
+
+	smtpObj.quit()
 
 
 
