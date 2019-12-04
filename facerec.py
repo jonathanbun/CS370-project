@@ -113,13 +113,14 @@ def run():
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
             print("getting frame for notify")
             cv2.imwrite("capture.jpg",frame)
+            if (time.time()-timePeriod) > notifyInterval:
+                print("notify")
 
-        if (time.time()-timePeriod) > notifyInterval:
-            print("notify")
-
-            timePeriod = time.time()
+                timePeriod = time.time()
             
-            notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+                notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+
+        
 
         # Display the resulting image
         cv2.imshow('Video', frame)
