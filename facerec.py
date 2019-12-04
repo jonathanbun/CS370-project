@@ -25,6 +25,7 @@ def run():
     face_locations = []
     face_encodings = []
     face_names = []
+    sent_faces = []
     process_this_frame = 0
     name = "Unknown"
 
