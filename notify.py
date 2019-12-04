@@ -8,7 +8,7 @@ from email.mime.multipart import MIMEMultipart
 from datetime import date
 import os
 
-def send(self, name ,recipientAddress,tempImage):
+def send(name ,recipientAddress,tempImage):
 
 	# email we're sending notifications from
 	fromEmail = "jgarcia6102@gmail.com"
