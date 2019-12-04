@@ -39,11 +39,11 @@ def send(name ,recipientAddress,tempImage):
 	# if name is unknown say so, else say who is at the door
 	if name == "Unknown":
 
-		msg['Subject'] = timeStamp + ": Unknown is at the door!"
+		msg['Subject'] = (str)timeStamp + ": Unknown is at the door!"
 
 	else:
 
-		msg['Subject'] = timeStamp + ": " + name + "  is at the door!"
+		msg['Subject'] = (str)timeStamp + ": " + name + "  is at the door!"
 	# read the image
 	readImage = open(tempImage, 'rb').read()
 
