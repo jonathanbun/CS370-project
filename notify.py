@@ -8,9 +8,6 @@ from email.mime.multipart import MIMEMultipart
 from datetime import date
 import os
 
-
-# for the sake of oop
-
 def send(self, name ,recipientAddress,tempImage):
 
 	# email we're sending notifications from
