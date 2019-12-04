@@ -114,7 +114,7 @@ def run():
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
             print("getting frame for notify")
             cv2.imwrite("capture.jpg",frame)
-            if len(face_encodings > 0):
+            if len(face_encodings) > 0:
                 print("notify")
 
                 #timePeriod = time.time()
