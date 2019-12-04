@@ -52,6 +52,8 @@ def run():
 
     notifyInterval = 600
 
+    video_capture = cv2.VideoCapture(0)
+
     while True:
         # Grab a single frame of video
         ret, frame = video_capture.read()
@@ -92,7 +94,7 @@ def run():
 
 
         # Display the results
-        """ for (top, right, bottom, left), name in zip(face_locations, face_names):
+        for (top, right, bottom, left), name in zip(face_locations, face_names):
             # Scale back up face locations since the frame we detected in was scaled to 1/4 size
             top *= 5
             right *= 5
@@ -107,7 +109,7 @@ def run():
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
-            cv2.imwrite("capture.jpg",frame)"""
+            cv2.imwrite("capture.jpg",frame)
 
         if (time.time()-timePeriod) > notifyInterval:
 
