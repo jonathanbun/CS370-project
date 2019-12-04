@@ -109,11 +109,11 @@ def run():
 
             cv2.imwrite("capture.jpg",frame)"""
 
-            if (time.time()-timePeriod) > notifyInterval:
+        if (time.time()-timePeriod) > notifyInterval:
 
-                timePeriod = time.time()
-                
-                notify.send(name, "suyashhiray@gmail.com","capture.jpg")
+            timePeriod = time.time()
+            
+            notify.send(name, "suyashhiray@gmail.com","capture.jpg")
 
         # Display the resulting image
         #cv2.imshow('Video', frame)
