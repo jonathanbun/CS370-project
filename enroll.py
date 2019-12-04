@@ -45,9 +45,9 @@ def main():
 	f = open("enrolled.txt", "a")
 	f.write("\n"+name + "^^" + img_name + "\n")
 	f.close()
-	for file in os.listdir(os.getcwd()):
-		if file.endswith(".jpg"):
-			shutil.move(os.getcwd(), os.path.join(os.getcwd() + "/Images", file))
+	# for file in os.listdir(os.getcwd()):
+	# 	if file.endswith(".jpg"):
+	# 		shutil.move(os.getcwd(), os.path.join(os.getcwd() + "/Images", file))
 
 if __name__== "__main__":
 	main()
