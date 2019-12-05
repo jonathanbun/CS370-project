@@ -6,7 +6,6 @@ from threading import Condition #allow thread to wait until notified
 import threading #multithreading to increase performace with multiple viewers
 from http import server #need to impliment server
 import sys
-import readchar #needed to detect keyboard input
 
 #HTML for website
 PAGE="""\
@@ -102,11 +101,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
         #init for server.HTTPserver
         super().__init__(address, handler)
 
-    def server_forever(self):
-        while 'q' not in readchar.key:
-            for x in readchar.key:
-                print (x)
-            self.serve_request()
+
 
 
 
