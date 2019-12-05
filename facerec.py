@@ -15,12 +15,9 @@ def run():
         for person in fp:
             data = person.split("^^")
             known_face_names.append(data[0])
-
             image = face_recognition.load_image_file(os.getcwd() + "/Images/" + data[1].replace("\n",""))
-
             image_encoding = face_recognition.face_encodings(image)[0]
             known_face_encodings.append(image_encoding)
-
 
     face_locations = []
     face_encodings = []
@@ -29,14 +26,13 @@ def run():
     process_this_frame = 0
     name = "Unknown"
 
-
     timePeriod = 0
 
     notifyInterval = 300
 
     video_capture = cv2.VideoCapture(0)
 
-    print("Camera now running")
+    print("Camera Now Running...")
     face_encodings = None
 
     while True:
