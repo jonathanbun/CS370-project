@@ -108,6 +108,7 @@ def run():
                     # sent_faces.append(name)
                     face_encodings = None
                     time.sleep(10)
+                    finish += 10
         
 
         # Display the resulting image
