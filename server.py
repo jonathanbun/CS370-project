@@ -3,9 +3,10 @@ import picamera #camera API
 import socketserver #framework for network server
 import logging #needed for streaming handler
 from threading import Condition #allow thread to wait until notified
-import threading
+import threading #multithreading to increase performace with multiple viewers
 from http import server #need to impliment server
 import sys
+import readchar #needed to detect keyboard input
 
 #HTML for website
 PAGE="""\
@@ -14,7 +15,7 @@ PAGE="""\
 <title>Pi Camera Video Feed</title>
 </head>
 <body>
-<center><h1>Pi Camera Video Feed</h1></center>
+<center><h1>Streaming Live Video</h1></center>
 <center><img src="stream.mjpg" width="640" height="480"></center>
 </body>
 </html>
@@ -45,17 +46,20 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
     #handle HTTP requests that arrive at the server
     def do_GET(self):
         if self.path == '/':
+            #redirect to index.html
             self.send_response(301)
             self.send_header('Location', '/index.html')
             self.end_headers()
         elif self.path == '/index.html':
             content = PAGE.encode('utf-8')
+            #success
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.send_header('Content-Length', len(content))
             self.end_headers()
             self.wfile.write(content)
         elif self.path == '/stream.mjpg':
+            #success
             self.send_response(200)
             self.send_header('Age', 0)
             self.send_header('Cache-Control', 'no-cache, private')
@@ -65,20 +69,22 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             try:
                 while True:
                     with StreamingHandler.output.condition:
+                        #release lock and wait
                         StreamingHandler.output.condition.wait()
                         frame = StreamingHandler.output.frame
                     self.wfile.write(b'--FRAME\r\n')
                     self.send_header('Content-Type', 'image/jpeg')
                     self.send_header('Content-Length', len(frame))
                     self.end_headers()
+                    #write frame
                     self.wfile.write(frame)
                     self.wfile.write(b'\r\n')
             except Exception as e:
-                print("Exceptionnnnnnnnn")
                 logging.warning(
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
         else:
+            #send error response
             self.send_error(404)
             self.end_headers()
 
@@ -93,20 +99,27 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     daemon_threads = True
     def __init__(self, address, handler, output):
         handler.output = output
+        #init for server.HTTPserver
         super().__init__(address, handler)
 
+    def server_forever(self):
+        while 'q' not in readchar.key:
+            self.serve_request()
 
 
-   
+
+
+#*******************main method to call*************************************************
 def run():
+    #using with statement allows easy cleanup of camera
     with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         output = StreamingOutput()
+        #using mjep reduces strain on Raspberry Pi
         camera.start_recording(output, format='mjpeg')
-        print("Live stream on")
+        print("Live Stream On...")
 
         try:
             address = ('', 8000)
-        
             server = StreamingServer(address, StreamingHandler, output)
             server.serve_forever()
 
