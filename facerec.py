@@ -34,15 +34,15 @@ def run():
 
     print("Camera Now Running...")
     face_encodings = None
-    fps = 0
-    start = time.time()
-    finish = start + 60
+    #fps = 0
+    #start = time.time()
+    #finish = start + 60
     time_sent = 0
 
     while start < finish:
         # Grab a single frame of video
         ret, frame = video_capture.read()
-        fps +=1
+        #fps +=1
 
         # Resize frame of video to 1/4 size for faster face recognition processing
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
@@ -123,8 +123,8 @@ def run():
             cv2.destroyAllWindows()
 
             break
-        start = time.time()
-    print(fps)
+        #start = time.time()
+    #print(fps)
 
     # Release handle to the webcam
     video_capture.release()
