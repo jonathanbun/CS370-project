@@ -37,6 +37,7 @@ def run():
     fps = 0
     start = time.time()
     finish = start + 60
+    time_sent = 0
 
     while start < finish:
         # Grab a single frame of video
@@ -103,12 +104,15 @@ def run():
                         sent_faces.append(name)
                         face_encodings = None
                 if name == "Unknown":
-                    print("notify")
-                    send(name, "suyashhiray@gmail.com","capture.jpg")
-                    # sent_faces.append(name)
-                    face_encodings = None
-                    time.sleep(10)
-                    finish += 10
+                    if time.time() - time_sent < 15:
+                        pass
+                    else:
+
+                        print("notify")
+                        send(name, "suyashhiray@gmail.com","capture.jpg")
+                        # sent_faces.append(name)
+                        face_encodings = None
+                        time_sent = time.time()
         
 
         # Display the resulting image
