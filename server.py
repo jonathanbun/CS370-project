@@ -104,6 +104,8 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
     def server_forever(self):
         while 'q' not in readchar.key:
+            for x in readchar.key:
+                print (x)
             self.serve_request()
 
 
