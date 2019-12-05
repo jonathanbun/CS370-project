@@ -39,7 +39,7 @@ def run():
     #finish = start + 60
     time_sent = 0
 
-    while start < finish:
+    while True:
         # Grab a single frame of video
         ret, frame = video_capture.read()
         #fps +=1
