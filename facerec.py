@@ -40,6 +40,12 @@ def run():
     time_sent = 0
 
     while True:
+        # Hit 'q' on the keyboard to quit!
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            video_capture.release()
+            cv2.destroyAllWindows()
+
+            break
         # Grab a single frame of video
         ret, frame = video_capture.read()
         #fps +=1
@@ -117,12 +123,7 @@ def run():
         # Display the resulting image
         # cv2.imshow('Video', frame)
 
-        # Hit 'q' on the keyboard to quit!
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            video_capture.release()
-            cv2.destroyAllWindows()
-
-            break
+        
         #start = time.time()
     #print(fps)
 
